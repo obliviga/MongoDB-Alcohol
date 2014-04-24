@@ -48,6 +48,18 @@ app.post('/users', function (req, res) {
 	});
 });
 
+app.param('name', function (req, res, next, name) {
+	Users.find({ name: name }, function (err, docs) {
+		req.user = docs[0];
+		next();
+	});
+});
+
+// SHOW
+app.get('/users/:name', function (req, res) {
+	res.render("users/show", { user: req.user });
+});
+
 http.createServer(app).listen(app.get('port'), function(){
 	console.log("Express server listening on port " + app.get('port'));
 });
