@@ -35,6 +35,19 @@ app.get('/users/new', function (req, res) {
 	res.render("users/new");
 });
 
+//CREATE
+app.post('/users', function (req, res) {
+	var b = req.body;
+	new Users({
+		name: b.name,
+		email: b.email,
+		age: b.age
+	}).save(function (err, user) {
+		if (err) res.json(err);
+		res.redirect('/users/' + user.name);
+	});
+});
+
 http.createServer(app).listen(app.get('port'), function(){
 	console.log("Express server listening on port " + app.get('port'));
 });
